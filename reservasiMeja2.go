@@ -3,9 +3,9 @@ import "fmt"
 const NMAX int = 10000
 
 type Meja struct {
-	nomor int
+	nomor          int
 	kapasitasKursi int
-	count int
+	count          int
 }
 
 type Pelanggan struct {
@@ -17,9 +17,9 @@ type Pelanggan struct {
 type Reservasi struct {
 	idReservasi int
 	idPelanggan int
-	nomorMeja int
-	tanggal string
-	jam int
+	nomorMeja   int
+	tanggal     string
+	jam         int
 }
 
 type tabMeja [NMAX]Meja
@@ -56,35 +56,36 @@ func main() {
 		fmt.Print("Pilihan Anda: ")
 		fmt.Scan(&pilihan)
 
-		if pilihan == 1 {
+		switch pilihan {
+		case 1:
 			tambahMeja(&M, &nMeja)
-		} else if pilihan == 2 {
+		case 2:
 			tampilMeja(M, nMeja)
-		} else if pilihan == 3 {
+		case 3:
 			var nomor int
 			fmt.Print("Nomor meja yang akan diubah: ")
 			fmt.Scan(&nomor)
 			ubahMeja(&M, nMeja, nomor)
-		} else if pilihan == 4 {
+		case 4:
 			var nomor int
 			fmt.Print("Nomor meja yang akan dihapus: ")
 			fmt.Scan(&nomor)
 			hapusMeja(&M, &nMeja, nomor)
-		} else if pilihan == 5 {
+		case 5:
 			tambahPelanggan(&P, &nPelanggan)
-		} else if pilihan == 6 {
+		case 6:
 			tampilPelanggan(P, nPelanggan)
-		} else if pilihan == 7 {
+		case 7:
 			var id int
 			fmt.Print("ID pelanggan yang akan diubah: ")
 			fmt.Scan(&id)
 			ubahDataPelanggan(&P, nPelanggan, id)
-		} else if pilihan == 8 {
+		case 8:
 			var id int
 			fmt.Print("ID pelanggan yang akan dihapus: ")
 			fmt.Scan(&id)
 			hapusDataPelanggan(&P, &nPelanggan, id)
-		} else if pilihan == 9 {
+		case 9:
 			var cariBerdasarkan, nilaiCari int
 			fmt.Println("Cari Meja Berdasarkan:")
 			fmt.Println("1. Nomor Meja")
@@ -108,7 +109,7 @@ func main() {
 			} else {
 				fmt.Println("Meja tidak ditemukan")
 			}
-		} else if pilihan == 10 {
+		case 10:
 			var cariBerdasarkan, nilaiCari int
 			fmt.Println("Cari Meja Berdasarkan (Binary Search):")
 			fmt.Println("1. Nomor Meja")
@@ -125,12 +126,14 @@ func main() {
 				selectionSortMejaByNomorAsc(&tempTab, nMeja)
 				i = cariMeja(tempTab, nMeja, nilaiCari, 1, "binary")
 				if i != -1 {
-					// Cari indeks asli di M
-					for j := 0; j < nMeja; j++ {
+					var found bool = false
+					var j int = 0
+					for found == false && j < nMeja {
 						if M[j].nomor == tempTab[i].nomor {
 							i = j
-							break
+							found = true
 						}
+						j = j + 1
 					}
 				}
 			} else if cariBerdasarkan == 2 {
@@ -143,12 +146,14 @@ func main() {
 				selectionSortKapasitasMejaAsc(&tempTab, nMeja)
 				i = cariMeja(tempTab, nMeja, nilaiCari, 2, "binary")
 				if i != -1 {
-					// Cari indeks asli di M
-					for j := 0; j < nMeja; j++ {
+					var found bool = false
+					var j int = 0
+					for found == false && j < nMeja {
 						if M[j].kapasitasKursi == tempTab[i].kapasitasKursi && M[j].nomor == tempTab[i].nomor {
 							i = j
-							break
+							found = true
 						}
+						j = j + 1
 					}
 				}
 			} else {
@@ -160,14 +165,14 @@ func main() {
 			} else {
 				fmt.Println("Meja tidak ditemukan")
 			}
-		} else if pilihan == 11 {
+		case 11:
 			var sortPilihan int
 			fmt.Println("Selection Sort Kapasitas Meja:")
 			fmt.Println("1. Ascending (Kecil ke Besar)")
 			fmt.Println("2. Descending (Besar ke Kecil)")
 			fmt.Print("Pilihan: ")
 			fmt.Scan(&sortPilihan)
-			
+
 			if sortPilihan == 1 {
 				selectionSortKapasitasMejaAsc(&M, nMeja)
 				fmt.Println("\nData meja berhasil diurutkan (Selection Sort - Kapasitas Kecil ke Besar)")
@@ -179,14 +184,14 @@ func main() {
 			} else {
 				fmt.Println("Pilihan tidak valid!")
 			}
-		} else if pilihan == 12 {
+		case 12:
 			var sortPilihan int
 			fmt.Println("Insertion Sort Kapasitas Meja:")
 			fmt.Println("1. Ascending (Kecil ke Besar)")
 			fmt.Println("2. Descending (Besar ke Kecil)")
 			fmt.Print("Pilihan: ")
 			fmt.Scan(&sortPilihan)
-			
+
 			if sortPilihan == 1 {
 				insertionSortKapasitasMejaAsc(&M, nMeja)
 				fmt.Println("\nData meja berhasil diurutkan (Insertion Sort - Kapasitas Kecil ke Besar)")
@@ -198,20 +203,20 @@ func main() {
 			} else {
 				fmt.Println("Pilihan tidak valid!")
 			}
-		} else if pilihan == 13 {
+		case 13:
 			tambahReservasi(&R, &nReservasi, M, nMeja, P, nPelanggan)
-		} else if pilihan == 14 {
+		case 14:
 			var tanggal string
 			fmt.Print("Masukkan tanggal (dd/mm/yyyy): ")
 			fmt.Scan(&tanggal)
 			statistikJumlah(R, M, nReservasi, nMeja, tanggal)
-		} else if pilihan == 15 {
+		case 15:
 			statusKetersediaan(R, nReservasi, M, nMeja)
-		} else if pilihan == 99 {
+		case 99:
 			fmt.Println("================================================================")
 			fmt.Println("         Terima kasih telah menggunakan ReservaResto!")
 			fmt.Println("================================================================")
-		} else {
+		default:
 			fmt.Println("Pilihan tidak valid!")
 		}
 	}
@@ -429,6 +434,22 @@ func statusKetersediaan(R tabReservasi, nR int, M tabMeja, nM int) {
 
 // ==================== POIN C: SEARCHING (SATU FUNGSI) ====================
 
+func selectionSortMejaByNomorAsc(M *tabMeja, n int) {
+	var pass, i, idx int
+	var temp Meja
+	for pass = 1; pass < n; pass++ {
+		idx = pass - 1
+		for i = pass; i < n; i++ {
+			if (*M)[idx].nomor > (*M)[i].nomor {
+				idx = i
+			}
+		}
+		temp = (*M)[idx]
+		(*M)[idx] = (*M)[pass-1]
+		(*M)[pass-1] = temp
+	}
+}
+
 func cariMeja(M tabMeja, n int, nilaiCari int, berdasarkan int, metode string) int {
 	var hasil int = -1
 
@@ -540,104 +561,7 @@ func insertionSortKapasitasMejaDesc(M *tabMeja, n int) {
 	}
 }
 
-func selectionSortMejaByNomorAsc(M *tabMeja, n int) {
-	var pass, i, idx int
-	var temp Meja
-	for pass = 1; pass < n; pass++ {
-		idx = pass - 1
-		for i = pass; i < n; i++ {
-			if (*M)[idx].nomor > (*M)[i].nomor {
-				idx = i
-			}
-		}
-		temp = (*M)[idx]
-		(*M)[idx] = (*M)[pass-1]
-		(*M)[pass-1] = temp
-	}
-}
-
 // ==================== POIN E: STATISTIK ====================
-
-func findMaxCountMeja(M tabMeja, m int) int {
-	var i, idx int
-	if m <= 0 {
-		idx = -1
-	} else {
-		idx = 0
-		for i = 1; i < m; i++ {
-			if M[i].count > M[idx].count {
-				idx = i
-			}
-		}
-	}
-	return idx
-}
-
-func statistikJumlah(R tabReservasi, M tabMeja, n, m int, tanggal string) {
-	var i, j, idx int
-	var totalReservasi int = 0
-
-	for j = 0; j < m; j++ {
-		M[j].count = 0
-	}
-
-	for i = 0; i < n; i++ {
-		if R[i].tanggal == tanggal {
-			totalReservasi = totalReservasi + 1
-			idx = -1
-			for j = 0; j < m; j++ {
-				if M[j].nomor == R[i].nomorMeja {
-					idx = j
-					break
-				}
-			}
-			if idx != -1 {
-				M[idx].count = M[idx].count + 1
-			}
-		}
-	}
-
-	fmt.Println("\n==================== STATISTIK RESERVASI ====================")
-	fmt.Printf("Tanggal %s\n", tanggal)
-	fmt.Printf("Total reservasi: %d\n", totalReservasi)
-
-	if totalReservasi == 0 {
-		fmt.Println("Belum ada reservasi pada tanggal tersebut.")
-	} else {
-		if m > 0 {
-			idx = findMaxCountMeja(M, m)
-			if idx != -1 && M[idx].count > 0 {
-				fmt.Printf("\n--- MEJA PALING SERING DIPESAN ---\n")
-				fmt.Printf("Meja nomor %d dipesan sebanyak %d kali\n", M[idx].nomor, M[idx].count)
-			}
-		}
-	}
-	fmt.Println("=============================================================\n")
-}
-
-// ==================== FITUR RESERVASI ====================
-
-func cariPelangganByID(P tabPelanggan, n int, id int) int {
-	var i int
-	var hasil int = -1
-	for i = 0; i < n; i++ {
-		if P[i].id == id {
-			hasil = i
-		}
-	}
-	return hasil
-}
-
-func reservasiBentrok(R tabReservasi, nR int, nomorMeja int, tanggal string, jam int) bool {
-	var i int
-	var bentrok bool = false
-	for i = 0; i < nR; i++ {
-		if R[i].nomorMeja == nomorMeja && R[i].tanggal == tanggal && R[i].jam == jam {
-			bentrok = true
-		}
-	}
-	return bentrok
-}
 
 func tambahReservasi(R *tabReservasi, nR *int, M tabMeja, nM int, P tabPelanggan, nP int) {
 	var idPelanggan, nomorMeja, jam int
@@ -684,4 +608,84 @@ func tambahReservasi(R *tabReservasi, nR *int, M tabMeja, nM int, P tabPelanggan
 		}
 	}
 	fmt.Println("==========================================================\n")
+}
+
+func findMaxCountMeja(M tabMeja, m int) int {
+	var i, idx int
+	if m <= 0 {
+		idx = -1
+	} else {
+		idx = 0
+		for i = 1; i < m; i++ {
+			if M[i].count > M[idx].count {
+				idx = i
+			}
+		}
+	}
+	return idx
+}
+
+func statistikJumlah(R tabReservasi, M tabMeja, n, m int, tanggal string) {
+	var i, j, idx int
+	var totalReservasi int = 0
+
+	for j = 0; j < m; j++ {
+		M[j].count = 0
+	}
+	for i = 0; i < n; i++ {
+		if R[i].tanggal == tanggal {
+			totalReservasi = totalReservasi + 1
+			idx = -1
+			j = 0
+			for j < m && idx == -1 {
+				if M[j].nomor == R[i].nomorMeja {
+					idx = j
+				}
+				j = j + 1
+			}
+			if idx != -1 {
+				M[idx].count = M[idx].count + 1
+			}
+		}
+	}
+	fmt.Println("\n==================== STATISTIK RESERVASI ====================")
+	fmt.Printf("Tanggal %s\n", tanggal)
+	fmt.Printf("Total reservasi: %d\n", totalReservasi)
+
+	if totalReservasi == 0 {
+		fmt.Println("Belum ada reservasi pada tanggal tersebut.")
+	} else {
+		if m > 0 {
+			idx = findMaxCountMeja(M, m)
+			if idx != -1 && M[idx].count > 0 {
+				fmt.Printf("\n--- MEJA PALING SERING DIPESAN ---\n")
+				fmt.Printf("Meja nomor %d dipesan sebanyak %d kali\n", M[idx].nomor, M[idx].count)
+			}
+		}
+	}
+	fmt.Println("=============================================================\n")
+}
+
+// ==================== FITUR RESERVASI ====================
+
+func cariPelangganByID(P tabPelanggan, n int, id int) int {
+	var i int
+	var hasil int = -1
+	for i = 0; i < n; i++ {
+		if P[i].id == id {
+			hasil = i
+		}
+	}
+	return hasil
+}
+
+func reservasiBentrok(R tabReservasi, nR int, nomorMeja int, tanggal string, jam int) bool {
+	var i int
+	var bentrok bool = false
+	for i = 0; i < nR; i++ {
+		if R[i].nomorMeja == nomorMeja && R[i].tanggal == tanggal && R[i].jam == jam {
+			bentrok = true
+		}
+	}
+	return bentrok
 }
