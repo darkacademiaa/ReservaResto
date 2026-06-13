@@ -681,11 +681,10 @@ func cariPelangganByID(P tabPelanggan, n int, id int) int {
 
 func reservasiBentrok(R tabReservasi, nR int, nomorMeja int, tanggal string, jam int) bool {
 	var i int
-	var bentrok bool = false
 	for i = 0; i < nR; i++ {
 		if R[i].nomorMeja == nomorMeja && R[i].tanggal == tanggal && R[i].jam == jam {
-			bentrok = true
+			return true
 		}
 	}
-	return bentrok
+	return false
 }
